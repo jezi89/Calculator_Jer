@@ -1,0 +1,143 @@
+button {
+  color: #fff;
+  padding-bottom: 11px;
+}
+
+.row {
+  flex-wrap: nowrap;
+}
+
+/* The main point of using content-visibility is performance. It can help to speed up page load because the browser is able to defer rendering elements that are not in the user’s viewport until the user activates to them */
+
+#delete {
+  width: 170px;
+  height: 60px;
+}
+
+.calculator .output {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column;
+  word-wrap: break-word;
+  word-break: break-all;
+  height: 140px;
+  left: 10px;
+  bottom: 5px;
+  background: #a7af7c;
+  color: #3a3c2e;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.75);
+  text-align: right;
+  border: none;
+  outline: none;
+}
+
+button {
+  width: 85px;
+  height: 60px;
+  margin: 4px;
+  color: #fff;
+  font-weight: 400;
+  place-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #2f2f2f, #3f3f3f);
+  box-shadow: inset -8px 0 8px rgba(0, 0, 0, 0.15), inset 0 -8px 8px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(0, 0, 0, 0.75), 10px 20px 25px rgba(0, 0, 0, 0.4);
+  filter: brightness(100%);
+  border: none;
+}
+
+button i {
+  position: relative;
+  font-style: normal;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  bottom: 14px;
+  right: 12px;
+  background: linear-gradient(90deg, #2d2d2d, #4d4d4d);
+  border-radius: 10px;
+  box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1), 10px 5px 10px rgba(0, 0, 0, 0.15);
+  border-left: 1px solid #0004;
+  border-bottom: 1px solid #0004;
+  border-top: 1px solid #0009;
+}
+
+button:active {
+  filter: brightness(1.5);
+}
+
+button:not(:hover) {
+  filter: brightness(100%);
+}
+
+#plus {
+  height: 128px;
+  place-items: center;
+}
+
+.calculator #delete {
+  width: 100%;
+  background: #f00;
+}
+
+.calculator #allclear {
+  background: #f00;
+}
+
+.calculator .extra1 {
+  background: #fcd7ad;
+}
+
+.calculator .extra1 i {
+  color: #011638;
+}
+
+.calculator #delete::before, #allclear::before {
+  background: linear-gradient(90deg, #d20000, #ffffff5c);
+  border-left: 1px solid #fff4;
+  border-bottom: 1px solid #fff4;
+  border-top: 1px solid #fff4;
+}
+
+.calculator .extra1::before {
+  background: linear-gradient(90deg, #fcd7ad, #ffffff5c);
+  border-left: 1px solid #fff4;
+  border-bottom: 1px solid #fff4;
+  border-top: 1px solid #fff4;
+}
+
+.calculator #equals {
+  background: #2196f3;
+}
+
+.calculator #equals::before {
+  background: linear-gradient(90deg, #1479c9, #ffffff5c);
+  border-left: 1px solid #fff4;
+  border-bottom: 1px solid #fff4;
+  border-top: 1px solid #fff4;
+}
+
+.previous-operand {
+  font-size: 2rem;
+  color: #141410;
+}
+
+.current-operand {
+  font-size: 2.5rem;
+}
+
+#memrow {
+  display: none;
+}
+
