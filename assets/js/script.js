@@ -49,6 +49,8 @@ btnmem.addEventListener('click', function onClick(event) {
   }
 });
 
+// test
+
 //  1. De gebruikte getallen slaat u op in let en const, geen var. > De button variabele zorgt voor
 // 7. U laat zien hoe u met globale en lokale variabelen werkt.
 let button = document.getElementsByName('button');
