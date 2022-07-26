@@ -46,7 +46,7 @@ let mouseOutFunction2 = function (event) {
   btnmem.style.filter = 'brightness(1.3)';
 };
 
-btnmem.addEventListener('click', function onClick(event) {
+let clickFunction = function (event) {
   if (toggleHide.style.display === 'flex') {
     toggleHide.style.display = 'none';
     btnmem.addEventListener('mouseout', mouseOutFunction1, false);
@@ -54,17 +54,20 @@ btnmem.addEventListener('click', function onClick(event) {
     toggleHide.style.display = 'flex';
     btnmem.addEventListener('mouseout', mouseOutFunction2, false);
   }
-});
+};
 
-btnmem.addEventListener('click', function onClick(event) {
+let clickFunction2 = function (event) {
   if (toggleHide.style.display === 'flex') {
     toggleHide.style.display = 'none';
-    btnmem.addEventListener('touchend', mouseOutFunction1, false);
+    btnmem.addEventListener('touchleave', mouseOutFunction1, false);
   } else {
     toggleHide.style.display = 'flex';
-    btnmem.addEventListener('touchend', mouseOutFunction2, false);
+    btnmem.addEventListener('touchleave', mouseOutFunction2, false);
   }
-});
+};
+
+btnmem.addEventListener('click', clickFunction, false);
+btnmem.addEventListener('touchenter', clickFunction2, false);
 
 //  1. De gebruikte getallen slaat u op in let en const, geen var. > De button variabele zorgt voor
 // 7. U laat zien hoe u met globale en lokale variabelen werkt.
