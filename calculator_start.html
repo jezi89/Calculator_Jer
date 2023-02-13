@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      #calculator {
+        width: 500px;
+      }
+
+      #keys {
+        display: flex;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+          sans-serif;
+      }
+
+      #numbers {
+        display: flex;
+        flex-wrap: wrap;
+        width: 75%;
+        justify-content: center;
+      }
+
+      #operators {
+        width: 25%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      #numbers div,
+      #operators div {
+        background-color: #f1f1f1;
+        width: 100px;
+        margin: 10px;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
+        cursor: pointer;
+        box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.6) inset;
+      }
+      #numbers div {
+        /* height is 123px, so   */
+        padding: 46.5px 0 0 0;
+      }
+
+      #numbers div:active,
+      #operators div:active {
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6) inset;
+      }
+      #screen {
+        margin: 18px;
+        width: calc(100% - 30px);
+        box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.6) inset;
+        background-color: rgba(239, 239, 239, 0.3);
+        display: flex;
+      }
+
+      #result,
+      #operator {
+        width: 100%;
+        height: 100px;
+        padding: 20px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 42px;
+        text-align: right;
+        border: none;
+      }
+      #operator {
+        width: 20%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="calculator">
+      <div id="screen">
+        <input type="text" id="result" placeholder="0" value="" disabled />
+        <input type="text" id="operator" disabled />
+      </div>
+      <div id="keys">
+        <div id="numbers">
+          <!-- inline javascript just for practice purposes, Document.querySelector() is preferred. No ids, because we do direct function calls with parameters passed by value and later converted into Strings and back to Number-->
+          <div onclick="onClickNumber(7)">9</div>
+          <div onclick="onClickNumber(8)">8</div>
+          <div onclick="onClickNumber(9)">9</div>
+          <div onclick="onClickNumber(4)">4</div>
+          <div onclick="onClickNumber(5)">5</div>
+          <div onclick="onClickNumber(6)">6</div>
+          <div onclick="onClickNumber(1)">1</div>
+          <div onclick="onClickNumber(2)">2</div>
+          <div onclick="onClickNumber(3)">3</div>
+          <div onclick="onClickNumber('.')">.</div>
+          <div onclick="onClickNumber(0)">0</div>
+          <div onclick="onClickEquals('=')">=</div>
+        </div>
+        <div id="operators">
+          <div onclick="backSpace('C')">⌫</div>
+          <div onclick="onClickCancel('AC')">AC</div>
+          <div onclick="onClickOperator('+')">+</div>
+          <div onclick="onClickOperator('-')">-</div>
+          <div onclick="onClickOperator('*')">x</div>
+          <div onclick="onClickOperator('/')">/</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // inline script for testing purposes. Preferred way is in separate file. Javascript goes before including Bignumber library from CDN
+      // Get result and Operator display fields
+      const myInput = document.getElementById('result');
+      const myOperator = document.getElementById('operator');
+      // Initialize Action and Memory
+      let Action = '';
+      let Memory;
+
+      //Put clicked Number in display in #numbers container (80% width)
+      function onClickNumber(CN) {
+        // If Statement to Check if myInput converted to String is any of these values, if so replace myInput.value with Clicked Number. const does not restrict change of Object properties.
+        if (
+          myInput.value === '' ||
+          myInput.value === '0' ||
+          myOperator.value === '='
+        ) {
+          myInput.value = CN;
+        }
+        //Using include instead of Indexof for checking dot. .inlcudes() is more readable. Alternative here if you need strict checking [NaN] or want to at which index the dot is found.
+        else if (myInput.value.includes('.') && CN === '.') {
+          // If dot is there, check with regex Metacharacters \D for any Non Digit Charachter and replace it with an empty string
+          CN = CN.replace(/\D/, '');
+          myInput.value += CN;
+          // In any other case, just concatenate clicked number passed into function to string
+        } else {
+          myInput.value += CN;
+        }
+      }
+
+      //Put clicked Operator in display in #operators Container (20% width)
+      function onClickOperator(CO) {
+        if (Memory === undefined) {
+          //I make a statement to set Memory equal to the value for the Clicked Operator and store the Memory as a Number with Unary Operator.
+          // Unary operators are more efficient than standard JavaScript function calls. Additionally, unary operators can not be overridden, therefore their functionality is guaranteed > In this case string data type is converted into a Number
+          Memory = +myInput.value;
+          // Set myOperator String Value (needed for Input) to clicked Operator
+          // Make myInput display an empty string again, which is in turn ready for a new invocation of onClickNumber()
+          myInput.value = '';
+          // Set Placeholder to be equal to Memory
+          myInput.placeholder = Memory;
+          // If Memory is not undefined, skip steps above and take operator for an equals sign, by invoking onClickEquals
+        } else {
+          onClickEquals();
+        }
+        // Always Show Operator used in operator display
+        myOperator.value = CO;
+        console.log(myOperator.value);
+        // Always Assign value for Action to be equal to CO that has been initialized globally.
+        Action = CO;
+        // Check if Memory is  Undefined and if true, set Memory
+      }
+
+      // If I cancel
+      function backSpace() {
+        if (myOperator.value != '=') {
+          myInput.value = myInput.value.slice(0, -1);
+          myOperator.value = '';
+        }
+      }
+
+      function onClickCancel() {
+        myInput.value = '';
+        myOperator.value = '';
+        Memory = undefined;
+        myInput.placeholder = 0;
+      }
+
+      function onClickEquals(Makes) {
+        if (myOperator.value === '=') {
+          return myInput.value;
+        }
+        let myValue = +myInput.value;
+        let realMem = new Big(Memory);
+        myOperator.value = Makes;
+
+        if (Action === '+') {
+          myInput.value = realMem.plus(myValue).valueOf();
+        } else if (Action === '-') {
+          myInput.value = realMem.minus(myValue).valueOf();
+        } else if (Action === '*') {
+          myInput.value = realMem.times(myValue).valueOf();
+        } else if (Action === '/') {
+          myInput.value = realMem.div(myValue).valueOf();
+        }
+        Memory = undefined;
+      }
+    </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/big.js/2.3.0/big.min.js"
+      integrity="sha512-FRFtxO3b4HKkMcWJ/Yv7tQp+WwWMSPLDlAO5hn1TbNgswaE+RAFESuBbulWR/PNeTq9d4DS/hyEZbcZRAqlYwQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </body>
+</html>
